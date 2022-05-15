@@ -16,6 +16,7 @@ const App = () => {
     const [type, setType] = useState('restaurants');
     const [rating, setRating] = useState('');
     const[filteredPlaces, setFilteredPlaces] = useState([]);
+    const[weatherOnly, setWeatherOnly] = useState(false);
     
 
     useEffect(() => {
@@ -43,6 +44,7 @@ const App = () => {
                     setFilteredPlaces([]);
                     setRating('');
                     setIsLoading(false);
+                    setWeatherOnly(false);
                 });
         }
     }, [type, bounds]);
@@ -63,6 +65,8 @@ const App = () => {
                         setType={setType}
                         rating={rating}
                         setRating={setRating}
+                        setWeatherOnly={setWeatherOnly}
+                        weatherOnly={weatherOnly}
                     />
                 </Grid>
                 <Grid item xs={12} md={8}>
@@ -73,6 +77,7 @@ const App = () => {
                         places={filteredPlaces.length ? filteredPlaces : places}
                         setChildClicked={setChildClicked}
                         weatherData={weatherData}
+                        weatherOnly={weatherOnly}
                     />
                 </Grid>
             </Grid>

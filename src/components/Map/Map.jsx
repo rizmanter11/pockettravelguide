@@ -7,7 +7,7 @@ import Rating from '@material-ui/lab/Rating';
 import useStyles from './styles';
 import mapStyles from './mapStyles';
 
-const Map = ({setCoordinates, setBounds, coordinates, places, setChildClicked, weatherData}) => {
+const Map = ({setCoordinates, setBounds, coordinates, places, setChildClicked, weatherData, weatherOnly}) => {
     const classes = useStyles();
     const isDesktop = useMediaQuery('(min-width:600px)');
 
@@ -26,7 +26,8 @@ const Map = ({setCoordinates, setBounds, coordinates, places, setChildClicked, w
                 }}
                 onChildClick={(child) => setChildClicked(child)}
             >
-                {places?.map((place, i) => (
+                
+                {!weatherOnly && places?.map((place, i) => (
                     <div
                         className={classes.markerContainer}
                         lat={Number(place.latitude)}
@@ -53,11 +54,20 @@ const Map = ({setCoordinates, setBounds, coordinates, places, setChildClicked, w
                     </div>
 
                 ))}
-                {weatherData?.list?.map((data, i) => (
+                {weatherOnly && weatherData?.list?.map((data, i) => (
                     <div key={i} lat={data.coord.lat} lng={data.coord.lon}>
-                        <img height={100} src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}/>
+                        <Paper elevation={3} className={classes.paper}>
+                            <Typography className={classes.typography} variant="subtitle2" gutterBottom>
+                                {data.name}
+                            </Typography>
+                            <Typography className={classes.typography} variant="body1" gutterBottom>
+                                {(Number(data.main.temp) - 273.15).toFixed()}°C
+                            </Typography>
+                            <img src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}/>
+                        </Paper>
                     </div>
                 ))}
+
             </GoogleMapReact>
         </div>
     );

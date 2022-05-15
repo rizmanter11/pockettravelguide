@@ -1,10 +1,10 @@
 import React, {useState, useEffect, createRef} from 'react';
-import { CircularProgress, Grid, Typography, InputLabel, MenuItem, FormControl, Select } from '@material-ui/core';
+import { CircularProgress, Grid, Typography, InputLabel, MenuItem, FormControl, Select, FormGroup, Switch, FormControlLabel} from '@material-ui/core';
 import Place from '../Place/Place';
 
 import useStyles from './styles';
 
-const List = ({places, childClicked, isLoading, type, setType, rating, setRating}) => {
+const List = ({places, childClicked, isLoading, type, setType, rating, setRating, setWeatherOnly, weatherOnly}) => {
     const classes = useStyles();
     const[elRefs, setElRefs] = useState([]);
     useEffect(() => {
@@ -22,6 +22,9 @@ const List = ({places, childClicked, isLoading, type, setType, rating, setRating
                 </div>
             ) : (
             <>
+            <FormGroup>
+                <FormControlLabel control={<Switch color="primary" onChange={(e) => setWeatherOnly(e.target.checked)}/>} label="Show Weather Only" />
+            </FormGroup>
             <FormControl className={classes.formControl}>
                 <InputLabel>Type</InputLabel>
                 <Select value={type} onChange={(e) => setType(e.target.value)}>
